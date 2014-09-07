@@ -2,29 +2,93 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Ember Starter Kit</title>
+  <title>Scrumptious</title>
   <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/foundation.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <script type="text/x-handlebars">
-    <h2>Welcome to Ember.js</h2>
+    <nav class="top-bar">
+      <ul class="title-area">
+        <li class="name">
+          <h1>{{#link-to "index"}}Scrumptious{{/link-to}}</h1>
+        </li>
+      </ul>
+      <ul class="right">
+        <li class="active">
+          <p>{{#link-to "bookmarks"}}Bookmarks{{/link-to}}</p>
+        </li>
+      </ul>
+    </nav>
 
-    {{outlet}}
+    <div class="container">
+      <div class = "row">
+        {{outlet}}
+      </div>
+    </div>
   </script>
 
-  <script type="text/x-handlebars" id="index">
-    <ul>
-    {{#each item in model}}
-      <li>{{item}}</li>
-    {{/each}}
-    </ul>
+  <script type="text/x-handlebars" id="bookmarks">
+    <h2>All my bookmarks</h2>
+
+    <table class="twelve">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Url</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each controller}}
+        <tr>
+          <td>{{title}}</td>
+          <td>{{url}}</td>
+        </tr>
+        {{else}}
+        <tr>
+          <td>You have no bookmarks.</td>
+          <td></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    {{#link-to "bookmarks.new"}}Add new bookmark{{/link-to}}
+
+    {{outlet}}
+
+  </script>
+
+  <script type="text/x-handlebars" id="bookmarks/new">
+    <h3>New bookmark</h3>
+    <form {{action "save" on="submit"}}>
+      <p>
+        {{view Ember.TextField valueBinding="title" placeholder="Fill in the title"}}
+      </p>
+      <p>
+        {{view Ember.TextField valueBinding="url" placeholder="Fill in a URL"}}
+      </p>
+      <p>
+        <button type="submit">Create bookmark</button>
+      </p>
+    </form>
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>
   <script src="js/libs/handlebars-1.1.2.js"></script>
   <script src="js/libs/ember-1.7.0.js"></script>
+  <script src="js/libs/foundation.min.js"></script>
+  <script src="js/libs/foundation.topbar.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/libs/ember-data.js"></script>
+  <script src="js/libs/localstorage_adapter.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/controllers/bookmarks.js"></script>
+  <script src="js/controllers/bookmarks_new.js"></script>
+  <script src="js/models/bookmark.js"></script>
+  <script src="js/routes/bookmarks.js"></script>
+  <script src="js/routes/bookmarks_new.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
   <script src="tests/runner.js"></script>
 </body>
