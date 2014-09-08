@@ -30,29 +30,60 @@
   </script>
 
   <script type="text/x-handlebars" id="bookmarks">
-    <h2>All my bookmarks</h2>
+    {{partial "bookmarkcontrols"}}
+    <h2>You have {{controller.length}} bookmarks</h2>
 
     <table class="twelve">
       <thead>
         <tr>
           <th>Name</th>
           <th>Url</th>
+          <th>Favourite?</th>
         </tr>
       </thead>
       <tbody>
-        {{#each controller}}
+        {{#each controller.favorites}}
         <tr>
           <td>{{title}}</td>
           <td>{{url}}</td>
+          <td>{{view Ember.Checkbox checkedBinding="favorite"}}</td>
         </tr>
         {{else}}
         <tr>
           <td>You have no bookmarks.</td>
           <td></td>
+          <td></td>
         </tr>
         {{/each}}
       </tbody>
     </table>
+
+    <table class="twelve">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Url</th>
+          <th>Favourite?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each controller.regular}}
+        <tr>
+          <td>{{title}}</td>
+          <td>{{url}}</td>
+          <td>{{view Ember.Checkbox checkedBinding="favorite"}}</td>
+        </tr>
+        {{else}}
+        <tr>
+          <td>You have no bookmarks.</td>
+          <td></td>
+          <td></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    
 
     {{#link-to "bookmarks.new"}}Add new bookmark{{/link-to}}
 
@@ -73,6 +104,15 @@
         <button type="submit">Create bookmark</button>
       </p>
     </form>
+  </script>
+
+  <script type="text/x-handlebars" id="_bookmarkcontrols">
+    <dl class="sub-nav" style="float:right; margin-top: 1em;">
+    <dt {{bind-attr class="sortAscending"}}>Sort by:</dt>
+    <dd><a {{action pushSort "title"}}>Title</a></dd>
+    <dd><a {{action pushSort "url"}}>URL</a></dd>
+    <dd><a {{action pushSort "isFavorite"}}>Favorite</a></dd>
+    </dl>
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>
